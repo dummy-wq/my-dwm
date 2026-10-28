@@ -1,0 +1,7 @@
+dwm
+*.o
+*.orig
+*.rej
+*.tar.gz
+*.diff
+
