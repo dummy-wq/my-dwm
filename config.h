@@ -30,8 +30,8 @@ typedef struct {
 	const void *cmd;
 } Sp;
 
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+const char *spcmd1[] = {"kitty", "--class=spterm", "--name=spterm", NULL};
+const char *spcmd2[] = {"kitty", "--class=spranger", "--name=spranger", "ranger", NULL};
 
 const char *spcmd3[] = {"keepassxc", NULL };
 
@@ -54,9 +54,7 @@ static const Rule rules[] = {
 	{ "kitty",    NULL, 	  NULL,       0, 	    0, 	           1,             0,            -1 },
 	{ NULL,	      "spterm",   NULL,	      SPTAG(0),     1,		   -1 },
 
-	{ NULL,	      "spfm",     NULL,       SPTAG(1),	    1,		   -1 },
-
-	{ NULL,	      "keepassxc",NULL,       SPTAG(2),	    0,		   -1 },
+        { NULL, "spranger", NULL, SPTAG(1), 1, -1 },
  };
 
 
@@ -92,22 +90,14 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = {"kitty", NULL };
 #include "movestack.c"
 static const char *roficmd[] = {"rofi", "-show", "drun", NULL };
-static const char *firefox[] = {"firefox", NULL };
-static const char *vscode[] = {"code", NULL };
-static const char *spotify[] = {"spotify", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY|ShiftMask,		XK_s,      spawn,	   {.v = spotify } },
-	{ MODKEY|ShiftMask, 		XK_c,	   spawn, 	   {.v = vscode} },
-	{ MODKEY|ShiftMask,		XK_f,      spawn,	   {.v = firefox} },
 	{ MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_u,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
