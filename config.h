@@ -25,6 +25,23 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, "#203825", "#928374" },
 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+
+const char *spcmd3[] = {"keepassxc", NULL };
+
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"spranger",    spcmd2},
+	{"keepassxc",   spcmd3},
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -34,7 +51,15 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating	   isterminal     noswallow     monitor */
-	{ "kitty",    NULL, 	  NULL,       0, 	    0, 	           1,             0,            -1 },};
+	{ "kitty",    NULL, 	  NULL,       0, 	    0, 	           1,             0,            -1 },
+	{ NULL,	      "spterm",   NULL,	      SPTAG(0),     1,		   -1 },
+
+	{ NULL,	      "spfm",     NULL,       SPTAG(1),	    1,		   -1 },
+
+	{ NULL,	      "keepassxc",NULL,       SPTAG(2),	    0,		   -1 },
+ };
+
+
 
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
@@ -104,6 +129,9 @@ static const Key keys[] = {
         { MODKEY,                       XK_minus,  setgaps,        {.i = -5 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +5 } },
 	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = GAP_RESET } },
+	{ MODKEY,            			XK_y,  	  togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			XK_u,	  togglescratch,  {.ui = 1 } },
+	{ MODKEY,            			XK_x,	  togglescratch,  {.ui = 2 } },
 	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
