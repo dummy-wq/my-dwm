@@ -176,6 +176,7 @@ static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
 static Monitor *createmon(void);
+static void cyclelayout(const Arg *arg);
 static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
@@ -186,7 +187,7 @@ static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
-static void focusmon(const Arg *arg);
+/*static void focusmon(const Arg *arg); */
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
@@ -787,6 +788,23 @@ createmon(void)
 }
 
 void
+cyclelayout(const Arg *arg) {
+	Layout *l;
+	for(l = (Layout *)layouts; l != selmon->lt[selmon->sellt]; l++);
+	if(arg->i > 0) {
+		if(l->symbol && (l + 1)->symbol)
+			setlayout(&((Arg) { .v = (l + 1) }));
+		else
+			setlayout(&((Arg) { .v = layouts }));
+	} else {
+		if(l != layouts && (l - 1)->symbol)
+			setlayout(&((Arg) { .v = (l - 1) }));
+		else
+			setlayout(&((Arg) { .v = &layouts[LENGTH(layouts) - 2] }));
+	}
+}
+
+void
 destroynotify(XEvent *e)
 {
 	Client *c;
@@ -965,6 +983,7 @@ focusin(XEvent *e)
 		setfocus(selmon->sel);
 }
 
+/*
 void
 focusmon(const Arg *arg)
 {
@@ -978,6 +997,7 @@ focusmon(const Arg *arg)
 	selmon = m;
 	focus(NULL);
 }
+*/
 
 void
 focusstack(const Arg *arg)
