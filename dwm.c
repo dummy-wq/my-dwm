@@ -161,6 +161,7 @@ typedef struct {
 } Rule;
 
 /* function declarations */
+static void savegaps(void);
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
@@ -313,7 +314,21 @@ struct Pertag {
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
 	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
+	int gappih[LENGTH(tags) + 1];
+	int gappiv[LENGTH(tags) + 1];
+	int gappoh[LENGTH(tags) + 1];
+	int gappov[LENGTH(tags) + 1];
+	int enablegaps[LENGTH(tags) + 1];
 };
+
+void
+savegaps(void)
+{
+	selmon->pertag->gappoh[selmon->pertag->curtag] = selmon->gappoh;
+	selmon->pertag->gappov[selmon->pertag->curtag] = selmon->gappov;
+	selmon->pertag->gappih[selmon->pertag->curtag] = selmon->gappih;
+	selmon->pertag->gappiv[selmon->pertag->curtag] = selmon->gappiv;
+}
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
@@ -769,14 +784,20 @@ createmon(void)
 	m->pertag->curtag = m->pertag->prevtag = 1;
 
 	for (i = 0; i <= LENGTH(tags); i++) {
-		m->pertag->nmasters[i] = m->nmaster;
-		m->pertag->mfacts[i] = m->mfact;
+        	m->pertag->nmasters[i] = m->nmaster;
+    		m->pertag->mfacts[i] = m->mfact;
 
-		m->pertag->ltidxs[i][0] = m->lt[0];
-		m->pertag->ltidxs[i][1] = m->lt[1];
-		m->pertag->sellts[i] = m->sellt;
+    		m->pertag->ltidxs[i][0] = m->lt[0];
+    		m->pertag->ltidxs[i][1] = m->lt[1];
+    		m->pertag->sellts[i] = m->sellt;
 
-		m->pertag->showbars[i] = m->showbar;
+    		m->pertag->showbars[i] = m->showbar;
+
+    		m->pertag->gappih[i] = gappih;
+    		m->pertag->gappiv[i] = gappiv;
+    		m->pertag->gappoh[i] = gappoh;
+    		m->pertag->gappov[i] = gappov;
+    		m->pertag->enablegaps[i] = startwithgaps[0];
 	}
 
 	return m;
@@ -2353,6 +2374,10 @@ view(const Arg *arg)
 	selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
 	selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
 	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
+	selmon->gappih = selmon->pertag->gappih[selmon->pertag->curtag];
+	selmon->gappiv = selmon->pertag->gappiv[selmon->pertag->curtag];
+	selmon->gappoh = selmon->pertag->gappoh[selmon->pertag->curtag];
+	selmon->gappov = selmon->pertag->gappov[selmon->pertag->curtag];
 
 	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
 		togglebar(NULL);

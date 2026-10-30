@@ -42,6 +42,8 @@ setgaps(int oh, int ov, int ih, int iv)
 	selmon->gappov = ov;
 	selmon->gappih = ih;
 	selmon->gappiv = iv;
+	savegaps();
+
 	arrange(selmon);
 }
 
