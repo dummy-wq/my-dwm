@@ -112,7 +112,6 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = {"kitty", NULL };
 #include "movestack.c"
 static const char *roficmd[] = {"rofi", "-show", "drun", NULL };
-static const char *goatcmd[]  = { "sh", "-c", "mpv \"$(hurl gopher://bitreich.org/0/memecache/index.meme | grep goat | grep -E '\.(mp4|mkv|webm|avi) ' | cut -f2 -d' ' | sort -R | head -n 1)\"", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -155,7 +154,6 @@ static const Key keys[] = {
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_equal,  togglegaps,     {0} },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_minus,  defaultgaps,    {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_g,      spawn,          {.v = goatcmd } },
 	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
@@ -177,7 +175,6 @@ static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
