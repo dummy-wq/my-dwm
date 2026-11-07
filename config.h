@@ -8,8 +8,8 @@ static const int startwithgaps[]    = { 1 };   /* 1 means gaps are used by defau
 static const unsigned int gappx[]   = { 10 };   /* default gap between windows in pixels, this can be customized for each tag */
 static const unsigned int snap      = 32;/* snap pixel */
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 5;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappiv    = 6;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int swallowfloating    = 0; 
@@ -27,8 +27,8 @@ static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray4, "#928374", "#203825"},
-	[SchemeSel]  = { col_gray4, "#203825", "#928374" },
+	[SchemeNorm] = {"#005F78", "#fef3c6", "#005F78"},
+	[SchemeSel]  = {"#fef3c6", "#C10007", "#FFB900"},
 };
 
 typedef struct {
@@ -111,11 +111,11 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = {"kitty", NULL };
 #include "movestack.c"
-static const char *roficmd[] = {"rofi", "-show", "drun", NULL };
+static const char *flame[] = {"flameshot", "gui", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          {.v = roficmd } },
+	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -154,6 +154,7 @@ static const Key keys[] = {
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_equal,  togglegaps,     {0} },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_minus,  defaultgaps,    {0} },
+	{ 0,				XK_Print,  spawn,          {.v = flame}	},	
 	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
