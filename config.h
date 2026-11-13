@@ -55,12 +55,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating	   isterminal     noswallow     monitor */
-	{ "kitty",    NULL, 	  NULL,       0, 	    0, 	           1,             0,            -1 },
-	{ NULL,	      "spterm",   NULL,	      SPTAG(0),     1,		   -1 },
+	/* class      instance     title       tags mask     isfloating	   isterminal     noswallow     monitor */
+	{ "kitty",    NULL, 	   NULL,       0, 	      0, 	           1,             0,            -1 },
+	{ NULL,	      "spterm",    NULL,        SPTAG(0),     1,		   -1 },
 
-        { NULL, "spranger", NULL, SPTAG(1), 1, -1 },
-	{ NULL, "keepassxc", NULL, SPTAG(2), 1, -1 },
+        { NULL,       "spranger",  NULL,       SPTAG(1),      1,                 -1 },
+	{ NULL,       "keepassxc", NULL,       SPTAG(2),       1,                 -1 },
  };
 
 
@@ -115,7 +115,7 @@ static const char *flame[] = {"flameshot", "gui", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Tab,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,             		XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -125,11 +125,12 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
+/*	{ MODKEY,                       XK_Tab,    view,           {0} }, */
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY, 			XK_d,	   setlayout,	   {.v = &layouts[5]} },
 	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },

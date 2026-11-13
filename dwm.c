@@ -2093,6 +2093,7 @@ togglescratch(const Arg *arg)
 			arrange(selmon);
 		}
 		if (ISVISIBLE(c)) {
+			c->isfloating = 1;
 			focus(c);
 			restack(selmon);
 		}
